@@ -1,0 +1,148 @@
+export interface Product {
+  id: string
+  name: string
+  category: string
+  description: string
+  image: string
+  minOrder: number
+  sizes: string[]
+  colors: string[]
+  basePrice: number
+}
+
+export const products: Product[] = [
+  {
+    id: "tshirt-cotton",
+    name: "Kaos Katun Premium",
+    category: "Garmen",
+    description: "Katun combed berkualitas tinggi, sempurna untuk acara korporat dan promosi",
+    image: "/premium-white-cotton-tshirt-mockup.jpg",
+    minOrder: 24,
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    colors: ["Putih", "Hitam", "Navy", "Abu-abu", "Merah"],
+    basePrice: 45000,
+  },
+  {
+    id: "polo-pique",
+    name: "Kaos Polo Pique",
+    category: "Garmen",
+    description: "Polo profesional dengan kerah, ideal untuk seragam perusahaan",
+    image: "/navy-blue-polo-shirt-corporate.jpg",
+    minOrder: 24,
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    colors: ["Navy", "Hitam", "Putih", "Maroon"],
+    basePrice: 65000,
+  },
+  {
+    id: "jacket-windbreaker",
+    name: "Jaket Windbreaker",
+    category: "Garmen",
+    description: "Windbreaker tahan air, sempurna untuk aktivitas korporat outdoor",
+    image: "/black-windbreaker-jacket-front.jpg",
+    minOrder: 24,
+    sizes: ["M", "L", "XL", "XXL"],
+    colors: ["Hitam", "Navy", "Merah", "Biru Royal"],
+    basePrice: 125000,
+  },
+  {
+    id: "vest-formal",
+    name: "Rompi Formal",
+    category: "Garmen",
+    description: "Rompi profesional untuk hotel, restoran, dan staff acara",
+    image: "/black-formal-vest-uniform.jpg",
+    minOrder: 24,
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    colors: ["Hitam", "Navy", "Abu-abu"],
+    basePrice: 85000,
+  },
+  {
+    id: "uniform-set",
+    name: "Set Seragam Lengkap",
+    category: "Garmen",
+    description: "Paket seragam lengkap termasuk kemeja dan celana",
+    image: "/corporate-uniform-set-blue.jpg",
+    minOrder: 24,
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    colors: ["Navy", "Hitam", "Abu-abu"],
+    basePrice: 180000,
+  },
+  {
+    id: "tote-bag-canvas",
+    name: "Tas Tote Kanvas",
+    category: "Produk Promosi",
+    description: "Tas tote kanvas ramah lingkungan, dapat dikustomisasi dengan logo Anda",
+    image: "/white-canvas-tote-bag-minimal.jpg",
+    minOrder: 50,
+    sizes: ["Standar"],
+    colors: ["Natural", "Hitam", "Navy", "Merah"],
+    basePrice: 15000,
+  },
+  {
+    id: "tumbler-stainless",
+    name: "Tumbler Stainless Steel",
+    category: "Produk Promosi",
+    description: "Tumbler terisolasi 500ml, menjaga minuman panas/dingin selama berjam-jam",
+    image: "/silver-stainless-steel-tumbler.jpg",
+    minOrder: 50,
+    sizes: ["500ml"],
+    colors: ["Silver", "Hitam", "Biru", "Merah"],
+    basePrice: 45000,
+  },
+  {
+    id: "notebook-custom",
+    name: "Notebook Custom",
+    category: "Produk Promosi",
+    description: "Notebook A5 hardcover dengan branding custom",
+    image: "/black-hardcover-notebook-minimal.jpg",
+    minOrder: 100,
+    sizes: ["A5"],
+    colors: ["Hitam", "Navy", "Coklat", "Abu-abu"],
+    basePrice: 25000,
+  },
+  {
+    id: "umbrella-golf",
+    name: "Payung Golf",
+    category: "Produk Promosi",
+    description: "Payung golf besar dengan buka otomatis, sempurna untuk hadiah korporat",
+    image: "/black-golf-umbrella-large.jpg",
+    minOrder: 24,
+    sizes: ["Standar"],
+    colors: ["Hitam", "Navy", "Merah"],
+    basePrice: 75000,
+  },
+  {
+    id: "banner-x-stand",
+    name: "Standing X-Banner",
+    category: "Materi Iklan",
+    description: "Standing X-banner portable 160x60cm dengan cetak premium",
+    image: "/xbanner-stand-display-mockup.jpg",
+    minOrder: 5,
+    sizes: ["160x60cm"],
+    colors: ["Cetak Full Color"],
+    basePrice: 150000,
+  },
+  {
+    id: "roll-up-banner",
+    name: "Roll Up Banner",
+    category: "Materi Iklan",
+    description: "Roll-up banner premium 200x85cm dengan tas pembawa",
+    image: "/rollup-banner-display-silver.jpg",
+    minOrder: 5,
+    sizes: ["200x85cm"],
+    colors: ["Cetak Full Color"],
+    basePrice: 250000,
+  },
+  {
+    id: "flag-desk",
+    name: "Bendera Meja",
+    category: "Materi Iklan",
+    description: "Bendera meja kecil dengan alas kayu, ideal untuk konferensi",
+    image: "/desk-flag-wooden-base-minimal.jpg",
+    minOrder: 24,
+    sizes: ["15x10cm"],
+    colors: ["Cetak Full Color"],
+    basePrice: 35000,
+  },
+]
+
+export const categories = ["Semua Produk", "Garmen", "Produk Promosi", "Materi Iklan"]
