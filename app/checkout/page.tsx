@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
@@ -26,10 +26,16 @@ export default function CheckoutPage() {
     additionalNotes: "",
   })
 
+  // ✅ FIX: redirect HARUS di useEffect
+  useEffect(() => {
+    if (items.length === 0) {
+      router.push("/cart")
+    }
+  }, [items, router])
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    // Generate email body
     const orderDetails = items
       .map((item, index) => {
         const sizeBreakdown = Object.entries(item.sizes)
@@ -44,11 +50,14 @@ ${index + 1}. ${item.name}
    Warna: ${item.colors.join(", ")}
    ${item.notes ? `Catatan: ${item.notes}` : ""}
    Harga Estimasi: Rp ${item.estimatedPrice.toLocaleString("id-ID")}
-      `.trim()
+        `.trim()
       })
       .join("\n\n")
 
-    const subject = encodeURIComponent("Permintaan Pesanan Bulk – Intan Mas Promosi")
+    const subject = encodeURIComponent(
+      "Permintaan Pesanan Bulk – Intan Mas Promosi",
+    )
+
     const body = encodeURIComponent(
       `
 Tim Intan Mas Promosi yang Terhormat,
@@ -68,29 +77,30 @@ Estimasi Total: Rp ${totalPrice.toLocaleString("id-ID")}
 PRODUK:
 ${orderDetails}
 
-${formData.additionalNotes ? `\nCATATAN TAMBAHAN:\n${formData.additionalNotes}` : ""}
+${
+  formData.additionalNotes
+    ? `\nCATATAN TAMBAHAN:\n${formData.additionalNotes}`
+    : ""
+}
 
 Mohon konfirmasi harga final dan timeline produksi.
 
 Hormat saya,
 ${formData.picName}
-    `.trim(),
+      `.trim(),
     )
 
-    // Open Gmail compose
     window.location.href = `mailto:info@intanmaspromosi.com?subject=${subject}&body=${body}`
 
-    // Clear cart after sending
     clearCart()
 
-    // Redirect to thank you page
     setTimeout(() => {
       router.push("/thank-you")
     }, 1000)
   }
 
+  // ⛔ render stop kalau kosong (tanpa side-effect)
   if (items.length === 0) {
-    router.push("/cart")
     return null
   }
 
@@ -99,13 +109,16 @@ ${formData.picName}
       <Navbar />
 
       <div className="container mx-auto px-4 py-8">
-        <h1 className="mb-8 font-serif text-3xl font-bold md:text-4xl">Checkout</h1>
+        <h1 className="mb-8 font-serif text-3xl font-bold md:text-4xl">
+          Checkout
+        </h1>
 
         <div className="grid gap-8 lg:grid-cols-3">
-          {/* Checkout Form */}
           <div className="lg:col-span-2">
             <Card className="border-border bg-card p-6">
-              <h2 className="mb-6 font-serif text-xl font-bold">Informasi Kontak</h2>
+              <h2 className="mb-6 font-serif text-xl font-bold">
+                Informasi Kontak
+              </h2>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
@@ -114,7 +127,12 @@ ${formData.picName}
                     id="companyName"
                     required
                     value={formData.companyName}
-                    onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        companyName: e.target.value,
+                      })
+                    }
                     placeholder="PT. Perusahaan Anda"
                   />
                 </div>
@@ -125,7 +143,12 @@ ${formData.picName}
                     id="picName"
                     required
                     value={formData.picName}
-                    onChange={(e) => setFormData({ ...formData, picName: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        picName: e.target.value,
+                      })
+                    }
                     placeholder="John Doe"
                   />
                 </div>
@@ -137,7 +160,12 @@ ${formData.picName}
                     type="email"
                     required
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        email: e.target.value,
+                      })
+                    }
                     placeholder="john@company.com"
                   />
                 </div>
@@ -149,7 +177,12 @@ ${formData.picName}
                     type="tel"
                     required
                     value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        phone: e.target.value,
+                      })
+                    }
                     placeholder="+62 812 3456 7890"
                   />
                 </div>
@@ -159,7 +192,12 @@ ${formData.picName}
                   <Textarea
                     id="additionalNotes"
                     value={formData.additionalNotes}
-                    onChange={(e) => setFormData({ ...formData, additionalNotes: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        additionalNotes: e.target.value,
+                      })
+                    }
                     placeholder="Permintaan khusus atau pertanyaan..."
                     rows={4}
                   />
@@ -167,28 +205,33 @@ ${formData.picName}
 
                 <Card className="border-primary/20 bg-muted p-4">
                   <div className="flex gap-3">
-                    <Mail className="h-5 w-5 flex-shrink-0 text-primary" />
+                    <Mail className="h-5 w-5 text-primary" />
                     <div className="text-sm">
                       <p className="font-semibold">Konfirmasi Email</p>
                       <p className="text-muted-foreground">
-                        Klik "Kirim Permintaan Pesanan" akan membuka aplikasi email Anda dengan detail pesanan. Tim kami
-                        akan merespons dalam 24 jam dengan harga final dan timeline.
+                        Detail pesanan akan dikirim melalui email dan tim kami
+                        akan merespons maksimal 24 jam.
                       </p>
                     </div>
                   </div>
                 </Card>
 
-                <Button type="submit" size="lg" className="w-full bg-primary hover:bg-primary/90">
+                <Button
+                  type="submit"
+                  size="lg"
+                  className="w-full bg-primary hover:bg-primary/90"
+                >
                   Kirim Permintaan Pesanan via Email
                 </Button>
               </form>
             </Card>
           </div>
 
-          {/* Order Summary */}
           <div>
             <Card className="sticky top-20 border-border bg-card p-6">
-              <h2 className="mb-4 font-serif text-xl font-bold">Ringkasan Pesanan</h2>
+              <h2 className="mb-4 font-serif text-xl font-bold">
+                Ringkasan Pesanan
+              </h2>
 
               <div className="space-y-3 border-b border-border pb-4">
                 <div className="flex justify-between text-sm">
@@ -203,12 +246,13 @@ ${formData.picName}
 
               <div className="mt-4 flex justify-between text-lg font-bold">
                 <span>Estimasi Total</span>
-                <span className="text-primary">Rp {totalPrice.toLocaleString("id-ID")}</span>
+                <span className="text-primary">
+                  Rp {totalPrice.toLocaleString("id-ID")}
+                </span>
               </div>
 
               <p className="mt-4 text-xs text-muted-foreground">
-                * Ini adalah harga estimasi. Harga final akan dikonfirmasi via email setelah tim kami meninjau pesanan
-                Anda.
+                * Harga final akan dikonfirmasi via email.
               </p>
             </Card>
           </div>
